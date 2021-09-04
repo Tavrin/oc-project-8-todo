@@ -4,7 +4,7 @@ namespace Tests\AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class DefaultControllerTest extends WebTestCase
+class SecurityControllerTest extends WebTestCase
 {
     public function testIndex()
     {
@@ -12,8 +12,8 @@ class DefaultControllerTest extends WebTestCase
             'HTTP_HOST' => 'localhost:8000',
         ]);
 
-        $crawler = $client->request('GET', '/');
+        $crawler = $client->request('GET', '/login');
 
-        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
 }
