@@ -1,9 +1,29 @@
 # Learn more about services, parameters and containers at
 # http://symfony.com/doc/current/book/service_container.html
 parameters:
+  container.autowiring.strict_mode: true
 #    parameter_name: value
 
 services:
-#    service_name:
-#        class: AppBundle\Directory\ClassName
-#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  AppBundle\:
+    resource: '../../src/AppBundle/*'
+    exclude: '../../src/AppBundle/Entity/'
+
+  AppBundle\Controller\TaskController:
+    autowire: true
+
+  AppBundle\Manager\TaskManager:
+    class: AppBundle\Manager\TaskManager
+    arguments:
+      $em: '@doctrine.orm.entity_manager'
+    # redundant thanks to _defaults, but value is overridable on each service
+    autowire: true
+
+  AppBundle\DataFixtures\:
+    resource: '../../src/AppBundle/DataFixtures'
+    tags: [ 'doctrine.fixture.orm' ]
