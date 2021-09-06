@@ -37,7 +37,7 @@ class TaskController extends Controller
 
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->taskManager->createTask($task, $this->getUser());
             $this->addFlash('success', 'La tâche a été bien été ajoutée.');
 

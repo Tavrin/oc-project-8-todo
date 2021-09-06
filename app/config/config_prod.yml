@@ -1,8 +1,9 @@
 imports:
     - { resource: config.yml }
 
-#doctrine:
-#    orm:
+doctrine:
+    orm:
+        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
 #        metadata_cache_driver: apc
 #        result_cache_driver: apc
 #        query_cache_driver: apc
