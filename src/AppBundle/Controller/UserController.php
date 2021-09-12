@@ -24,10 +24,6 @@ class UserController extends Controller
      */
     public function listAction(): Response
     {
-        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-            throw $this->createAccessDeniedException();
-        }
-
         return $this->render('user/list.html.twig', ['users' => $this->getDoctrine()->getRepository('AppBundle:User')->findAll()]);
     }
 
@@ -36,18 +32,14 @@ class UserController extends Controller
      */
     public function createAction(Request $request): Response
     {
-        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-            throw $this->createAccessDeniedException();
-        }
-
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $this->userManager->createUser($form, $user);
+            $isAdmin = $form->get('roles')->getData();
+            $this->userManager->manageUser($user, $isAdmin);
             $this->addFlash('success', "L'utilisateur a bien été ajouté.");
 
             return $this->redirectToRoute('user_list');
@@ -61,20 +53,13 @@ class UserController extends Controller
      */
     public function editAction(User $user, Request $request): Response
     {
-        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-            throw $this->createAccessDeniedException();
-        }
-
         $form = $this->createForm(UserType::class, $user);
 
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $password = $this->get('security.password_encoder')->encodePassword($user, $user->getPassword());
-            $user->setPassword($password);
-
-            $this->getDoctrine()->getManager()->flush();
-
+            $isAdmin = $form->get('roles')->getData();
+            $this->userManager->manageUser($user, $isAdmin, false);
             $this->addFlash('success', "L'utilisateur a bien été modifié");
 
             return $this->redirectToRoute('user_list');

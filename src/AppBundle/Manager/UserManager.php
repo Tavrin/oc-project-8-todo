@@ -18,18 +18,23 @@ class UserManager
         $this->encoder = $encoder;
     }
 
-    public function createUser(FormInterface $form, User $user)
+    public function manageUser(User $user, bool $isAdmin, bool $isNewUser = true): User
     {
         $password = $this->encoder->encodePassword($user, $user->getPassword());
         $user->setPassword($password);
 
-        $isAdmin = $form->get('roles')->getData();
-
-        if (true === $isAdmin) {
+        if (true === $isAdmin && false === $user->hasRole('ROLE_ADMIN')) {
             $user->setRoles(['ROLE_ADMIN']);
+        } elseif (false === $isAdmin && true === $user->hasRole('ROLE_ADMIN')) {
+            $user->setRoles([]);
         }
 
-        $this->em->persist($user);
+        if (true === $isNewUser) {
+            $this->em->persist($user);
+        }
+
         $this->em->flush();
+
+        return $user;
     }
 }
