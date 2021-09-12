@@ -12,17 +12,6 @@ services:
 
   AppBundle\:
     resource: '../../src/AppBundle/*'
-    exclude: '../../src/AppBundle/Entity/'
-
-  AppBundle\Controller\TaskController:
-    autowire: true
-
-  AppBundle\Manager\TaskManager:
-    class: AppBundle\Manager\TaskManager
-    arguments:
-      $em: '@doctrine.orm.entity_manager'
-    # redundant thanks to _defaults, but value is overridable on each service
-    autowire: true
 
   AppBundle\DataFixtures\:
     resource: '../../src/AppBundle/DataFixtures'

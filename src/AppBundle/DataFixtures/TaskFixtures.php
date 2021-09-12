@@ -39,6 +39,8 @@ class TaskFixtures extends Fixture implements DependentFixtureInterface, ORMFixt
             $manager->persist($task);
         }
 
+
+
         $manager->flush();
     }
 }

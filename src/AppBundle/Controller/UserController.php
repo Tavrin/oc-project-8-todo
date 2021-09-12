@@ -4,12 +4,20 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
 use AppBundle\Form\UserType;
+use AppBundle\Manager\UserManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 class UserController extends Controller
 {
+    private $userManager;
+
+    public function __construct(UserManager $userManager)
+    {
+        $this->userManager = $userManager;
+    }
+
     /**
      * @Route("/users", name="user_list")
      */
@@ -29,13 +37,8 @@ class UserController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $password = $this->get('security.password_encoder')->encodePassword($user, $user->getPassword());
-            $user->setPassword($password);
 
-            $em->persist($user);
-            $em->flush();
-
+            $this->userManager->createUser($form, $user);
             $this->addFlash('success', "L'utilisateur a bien été ajouté.");
 
             return $this->redirectToRoute('user_list');
