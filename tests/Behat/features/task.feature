@@ -1,4 +1,5 @@
 Feature: task
+  In order to manage tasks,
 
   Scenario: Connect tasks to their associated users
     Given I am an user
