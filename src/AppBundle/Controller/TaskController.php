@@ -7,6 +7,7 @@ use AppBundle\Form\TaskType;
 use AppBundle\Manager\TaskManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -24,7 +25,8 @@ class TaskController extends Controller
      */
     public function listAction(): ?Response
     {
-        return $this->render('task/list.html.twig', ['tasks' => $this->getDoctrine()->getRepository('AppBundle:Task')->findAll()]);
+        $tasks = $this->taskManager->getTasks();
+        return $this->render('task/list.html.twig', ['tasks' => $tasks]);
     }
 
     /**
@@ -73,7 +75,7 @@ class TaskController extends Controller
     /**
      * @Route("/tasks/{id}/toggle", name="task_toggle")
      */
-    public function toggleTaskAction(Task $task)
+    public function toggleTaskAction(Task $task): RedirectResponse
     {
         $task->toggle(!$task->isDone());
         $this->getDoctrine()->getManager()->flush();
@@ -86,7 +88,7 @@ class TaskController extends Controller
     /**
      * @Route("/tasks/{id}/delete", name="task_delete")
      */
-    public function deleteTaskAction(Task $task)
+    public function deleteTaskAction(Task $task): RedirectResponse
     {
         $em = $this->getDoctrine()->getManager();
         $em->remove($task);

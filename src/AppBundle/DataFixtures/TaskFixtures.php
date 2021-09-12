@@ -39,7 +39,13 @@ class TaskFixtures extends Fixture implements DependentFixtureInterface, ORMFixt
             $manager->persist($task);
         }
 
-
+        for ($i = 1; $i <= 10; $i++) {
+            $task = new Task();
+            $task->setTitle($faker->sentence());
+            $task->setContent($faker->paragraph(3));
+            $task->setCreatedAt($faker->dateTimeBetween('-12 months', 'now'));
+            $manager->persist($task);
+        }
 
         $manager->flush();
     }
