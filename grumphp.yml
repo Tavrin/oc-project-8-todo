@@ -1,4 +1,5 @@
 grumphp:
+    hooks_dir: ~
     tasks:
         phpunit: ~
         git_commit_message:
