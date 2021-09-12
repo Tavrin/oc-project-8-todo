@@ -29,6 +29,13 @@ class UserFixtures extends Fixture implements ORMFixtureInterface
         $manager->persist($user);
         $this->addReference('user', $user);
 
+        $user = new User();
+        $user->setUsername('anonyme');
+        $user->setEmail('anonyme@email.com');
+        $user->setPassword($this->encoder->encodePassword($user, 'root'));
+        $manager->persist($user);
+        $this->addReference('anonyme', $user);
+
         $manager->flush();
     }
 }
