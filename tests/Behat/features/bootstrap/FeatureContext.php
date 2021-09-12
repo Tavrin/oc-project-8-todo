@@ -30,8 +30,6 @@ class FeatureContext extends MinkContext implements Context
      */
     public function __construct()
     {
-        $driver = new GoutteDriver();
-        $this->session = new Session($driver);
     }
 
 

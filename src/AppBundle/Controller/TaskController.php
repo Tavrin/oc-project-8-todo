@@ -90,11 +90,11 @@ class TaskController extends Controller
      */
     public function deleteTaskAction(Task $task): RedirectResponse
     {
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($task);
-        $em->flush();
-
-        $this->addFlash('success', 'La tâche a bien été supprimée.');
+        if (false === $this->taskManager->deleteTask($task, $this->getUser())) {
+            $this->addFlash('error', "Seul l'utilisateur associé à la tâche peut la supprimer");
+        } else {
+            $this->addFlash('success', 'La tâche a bien été supprimée.');
+        }
 
         return $this->redirectToRoute('task_list');
     }

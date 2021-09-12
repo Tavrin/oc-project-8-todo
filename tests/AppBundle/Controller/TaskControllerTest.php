@@ -2,7 +2,9 @@
 
 namespace Tests\AppBundle\Controller;
 
-class TaskControllerTest extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+
+class TaskControllerTest extends WebTestCase
 {
     private $client;
 

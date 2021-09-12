@@ -95,6 +95,20 @@ class User implements UserInterface
         return array_unique($roles);
     }
 
+    /**
+     * @see UserInterface
+     */
+    public function hasRole(string $role): bool
+    {
+       foreach ($this->roles as $userRole) {
+           if ($userRole === $role) {
+               return true;
+           }
+       }
+
+       return false;
+    }
+
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
