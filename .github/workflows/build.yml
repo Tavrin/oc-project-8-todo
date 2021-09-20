@@ -11,8 +11,6 @@ jobs:
         with:
           php-version: '7.4'
       - uses: actions/checkout@v2
-      - name: Update composer to last v1 version
-        run: composer self-update 1.10.16
 
       - name: Validate composer.json and composer.lock
         run: composer validate -vv
