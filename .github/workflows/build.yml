@@ -1,0 +1,25 @@
+name: Composer & Tests
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup PHP with pre-release PECL extension
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+      - uses: actions/checkout@v2
+      - name: Update composer to last v1 version
+        run: composer self-update 1.10.16
+
+      - name: Validate composer.json and composer.lock
+        run: composer validate -vv
+      - name: Remove vendors
+        run: rm -rf /home/runner/work/dossierfamilial.com/dossierfamilial.com/vendor/*
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: Run test suite
+        run: vendor/bin/phpunit
