@@ -49,6 +49,11 @@ class User implements UserInterface
         return $this->id;
     }
 
+    public function setId(int $id)
+    {
+        $this->id = $id;
+    }
+
     public function getUsername()
     {
         return $this->username;

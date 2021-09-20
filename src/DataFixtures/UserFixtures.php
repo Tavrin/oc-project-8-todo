@@ -5,6 +5,10 @@ namespace App\DataFixtures;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
+use Doctrine\ORM\Id\AssignedGenerator;
+use Doctrine\ORM\Id\IdentityGenerator;
+use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -22,6 +26,22 @@ class UserFixtures extends Fixture implements ORMFixtureInterface
      */
     public function load(ObjectManager $manager)
     {
+        $user = new User();
+        $user->setUsername('anonyme');
+        $user->setId(1);
+        $user->setEmail('anonyme@email.com');
+        $user->setPassword($this->encoder->encodePassword($user, 'root'));
+        $manager->persist($user);
+        $metadata = $manager->getClassMetaData(get_class($user));
+        $metadata->setIdGeneratorType(ClassMetadataInfo::GENERATOR_TYPE_NONE);
+        $metadata->setIdGenerator(new AssignedGenerator());
+        $this->addReference('anonyme', $user);
+
+        $manager->flush();
+
+        $metadata->setIdGeneratorType(ClassMetadataInfo::GENERATOR_TYPE_AUTO);
+        $metadata->setIdGenerator(new IdentityGenerator());
+
         $user = new User();
         $user->setUsername('user');
         $user->setEmail('user@email.com');
@@ -43,13 +63,6 @@ class UserFixtures extends Fixture implements ORMFixtureInterface
         $user->setPassword($this->encoder->encodePassword($user, 'root'));
         $manager->persist($user);
         $this->addReference('admin', $user);
-
-        $user = new User();
-        $user->setUsername('anonyme');
-        $user->setEmail('anonyme@email.com');
-        $user->setPassword($this->encoder->encodePassword($user, 'root'));
-        $manager->persist($user);
-        $this->addReference('anonyme', $user);
 
         $manager->flush();
     }
