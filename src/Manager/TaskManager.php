@@ -33,18 +33,7 @@ class TaskManager
 
     public function getTasks(): array
     {
-        $tasks = $this->taskRepository->findAll();
-        $anonymousUser = $this->userRepository->findOneBy(['username' => 'anonyme']);
-
-        foreach ($tasks as $task) {
-            if (null === $task->getUser() && !empty($anonymousUser)) {
-                $task->setUser($anonymousUser);
-            }
-        }
-
-        $this->em->flush();
-
-        return $tasks;
+        return $this->taskRepository->findAll();
     }
 
     public function deleteTask(Task $task, $user): bool
