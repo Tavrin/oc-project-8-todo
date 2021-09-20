@@ -2,7 +2,7 @@
 
 namespace Tests\Behat\features\bootstrap;
 
-use AppBundle\Entity\Task;
+use App\Entity\Task;
 use AppKernel;
 use Behat\Behat\Context\Context;
 use Behat\Behat\Tester\Exception\PendingException;
@@ -19,7 +19,6 @@ use Behat\MinkExtension\Context\MinkContext;
  */
 class FeatureContext extends MinkContext implements Context
 {
-    private static $container;
     public $session;
     /**
      * Initializes context.
@@ -32,18 +31,6 @@ class FeatureContext extends MinkContext implements Context
     {
     }
 
-
-    /**
-     * @BeforeSuite
-     */
-    public static function bootstrapSymfony()
-    {
-        require_once __DIR__.'/../../../../app/autoload.php';
-        require_once __DIR__.'/../../../../app/AppKernel.php';
-        $kernel = new AppKernel('test', true);
-        $kernel->boot();
-        self::$container = $kernel->getContainer();
-    }
 
     /**
      * @Given I am an user

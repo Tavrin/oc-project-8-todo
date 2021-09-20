@@ -2,7 +2,7 @@
 
 namespace Tests\Behat;
 
-use AppBundle\Entity\User;
+use App\Entity\User;
 use AppKernel;
 use Behat\Behat\Context\Context;
 use Behat\Mink\Exception\ElementNotFoundException;
@@ -10,15 +10,15 @@ use Behat\MinkExtension\Context\RawMinkContext;
 
 class UserContext extends RawMinkContext implements Context
 {
-    private static $container;
+    private static $sharedStorage;
 
     /**
      * @BeforeSuite
      */
     public static function bootstrapSymfony()
     {
-        require_once __DIR__.'/../../app/autoload.php';
-        require_once __DIR__.'/../../app/AppKernel.php';
+        require_once __DIR__.'/../../config/bootstrap.php';
+        require_once __DIR__ . '/../../config/AppKernel.php';
         $kernel = new AppKernel('test', true);
         $kernel->boot();
         self::$container = $kernel->getContainer();
