@@ -66,18 +66,11 @@ class TaskManagerTest extends TestCase
         $content[0]->setTitle('toto');
         $content[0]->setContent('aa');
 
-        $userContent = new User();
-        $userContent->setUsername('anonyme');
-
         $this->taskRepository->expects($this->any())
             ->method('findAll')
             ->willReturn($content);
 
-        $this->userRepository->method('findOneBy')
-            ->willReturn($userContent);
-
         $expected[0] = clone($content[0]);
-        $expected[0]->setUser($userContent);
 
         $actual = $this->entity->getTasks();
 
