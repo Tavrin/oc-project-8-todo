@@ -1,6 +1,11 @@
 grumphp:
     hooks_dir: ~
+    fixer:
+        enabled: true
+        fix_by_default: false
     tasks:
+        phpcs: ~
+        phpcsfixer: ~
         phpunit: ~
         git_commit_message:
             matchers:
