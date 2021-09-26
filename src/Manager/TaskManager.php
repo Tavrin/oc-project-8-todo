@@ -3,7 +3,6 @@
 namespace App\Manager;
 
 use App\Entity\Task;
-use App\Entity\User;
 use App\Repository\TaskRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
