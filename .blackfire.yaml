@@ -1,0 +1,45 @@
+# Déclaration d'une nouvelle métrique
+metrics:
+    services:
+        label: "Appels du Container de Services"
+        matching_calls:
+            php:
+                - callee:
+                      selector: =Symfony\Component\DependencyInjection\Container::get
+                      argument: { 1: "^"}
+
+# Sample .blackfire.yaml file
+# Read more about .blackfire.yaml at https://blackfire.io/docs/testing-cookbooks/tests
+tests:
+    "Pages should be fast":
+        path: "/.*"
+        assertions:
+            - "main.wall_time < 100ms"
+
+    "Tests des appels au Container de Services":
+        path: "/.*"
+        assertions:
+            - metrics.services.count < 30
+            - metrics.services.wall_time < 20ms
+
+    "Tests spécifiques à Twig":
+        path: "/.*"
+        assertions:
+            - metrics.twig.compile.count == 0 # Pas de compilation en production
+            - metrics.twig.attributes.get.count < 30 # Pas trop de logique dans les templates
+
+    "Tests de non régression":
+        path: "/.*"
+        assertions:
+            - percent(main.memory) < 5% # Contrôle de la consommation de mémoire
+            - diff(main.wall_time) < 0.1s # Contrôle du temps de chargement du script
+
+# Read more about writing scenarios at https://blackfire.io/docs/builds-cookbooks/scenarios
+scenarios: |
+    #!blackfire-player
+
+    scenario
+        name 'The homepage should answer with a 200 status code'
+
+        visit url('/')
+            expect status_code() == 200
