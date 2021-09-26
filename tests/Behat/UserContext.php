@@ -17,7 +17,7 @@ class UserContext extends RawMinkContext implements Context
      */
     public static function bootstrapSymfony()
     {
-        require_once __DIR__.'/../../config/bootstrap.php';
+        require_once __DIR__ . '/../../config/bootstrap.php';
         require_once __DIR__ . '/../../config/AppKernel.php';
         $kernel = new AppKernel('test', true);
         $kernel->boot();
@@ -26,6 +26,7 @@ class UserContext extends RawMinkContext implements Context
 
     /**
      * @Given /^I am an admin/
+     *
      * @throws ElementNotFoundException
      */
     public function iAmAnAdmin()
@@ -45,11 +46,12 @@ class UserContext extends RawMinkContext implements Context
         $em = self::$container->get('doctrine')->getManager();
         $userId = $em->getRepository(User::class)->findOneBy(['username' => 'user']);
         $userId = $userId->getId();
-        $this->getSession()->visit('http://localhost:8000/users/'.$userId.'/edit');
+        $this->getSession()->visit('http://localhost:8000/users/' . $userId . '/edit');
     }
 
     /**
      * @Then this access is granted
+     *
      * @throws \Behat\Mink\Exception\ExpectationException
      */
     public function thisAccessIsGranted()
@@ -59,6 +61,7 @@ class UserContext extends RawMinkContext implements Context
 
     /**
      * @Then this access is not granted
+     *
      * @throws \Behat\Mink\Exception\ExpectationException
      */
     public function thisAccessIsNotGranted()

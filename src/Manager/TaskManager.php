@@ -11,12 +11,15 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class TaskManager
 {
     private const ANONYMOUS_USER = 'anonyme';
-    private $em ;
+    private $em;
     private $taskRepository;
     private $userRepository;
 
-    public function __construct(EntityManagerInterface $em, TaskRepository $taskRepository, UserRepository $userRepository)
-    {
+    public function __construct(
+        EntityManagerInterface $em,
+        TaskRepository $taskRepository,
+        UserRepository $userRepository
+    ) {
         $this->em = $em;
         $this->taskRepository = $taskRepository;
         $this->userRepository = $userRepository;
@@ -27,6 +30,7 @@ class TaskManager
         $task->setUser($user);
         $this->em->persist($task);
         $this->em->flush();
+
         return $task;
     }
 
@@ -37,12 +41,16 @@ class TaskManager
 
     public function deleteTask(Task $task, $user): bool
     {
-        if ((self::ANONYMOUS_USER === $task->getUser()->getUsername() && false === $user->hasRole('ROLE_ADMIN')) || (self::ANONYMOUS_USER !== $task->getUser()->getUsername() && $user !== $task->getUser())) {
+        if (
+            (self::ANONYMOUS_USER === $task->getUser()->getUsername() && false === $user->hasRole('ROLE_ADMIN'))
+            || (self::ANONYMOUS_USER !== $task->getUser()->getUsername() && $user !== $task->getUser())
+        ) {
             return false;
         }
 
         $this->em->remove($task);
         $this->em->flush();
+
         return true;
     }
 }

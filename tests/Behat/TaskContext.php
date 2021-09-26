@@ -6,5 +6,4 @@ use Behat\Behat\Context\Context;
 
 class TaskContext implements Context
 {
-
 }

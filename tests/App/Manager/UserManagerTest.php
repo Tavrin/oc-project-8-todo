@@ -42,7 +42,7 @@ class UserManagerTest extends \PHPUnit\Framework\TestCase
         $user->setPassword('aaa');
         $user->setRoles(['ROLE_ADMIN']);
 
-        $expected = clone($user);
+        $expected = clone $user;
         $expected->setRoles([]);
         $expected->setPassword('bbb');
 
@@ -60,7 +60,7 @@ class UserManagerTest extends \PHPUnit\Framework\TestCase
         $user->setUsername('toto');
         $user->setPassword('aaa');
 
-        $expected = clone($user);
+        $expected = clone $user;
         $expected->setRoles(['ROLE_ADMIN']);
         $expected->setPassword('bbb');
 

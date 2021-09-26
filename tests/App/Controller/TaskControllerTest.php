@@ -56,7 +56,7 @@ class TaskControllerTest extends WebTestCase
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
         $this->assertEquals(1, $crawler->filter('div.alert-success')->count());
 
-        $this->client->request('GET', '/tasks/'.$id.'/delete');
+        $this->client->request('GET', '/tasks/' . $id . '/delete');
         $this->client->followRedirect();
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
     }

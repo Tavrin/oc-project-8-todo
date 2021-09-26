@@ -4,8 +4,13 @@ grumphp:
         enabled: true
         fix_by_default: false
     tasks:
-        phpcs: ~
-        phpcsfixer: ~
+        phpcs:
+            standard: [PSR12]
+            whitelist_patterns:
+                - /^src\/(.*)/
+        phpcsfixer:
+            config: .php-cs-fixer.dist.php
+            config_contains_finder: true
         phpunit: ~
         git_commit_message:
             matchers:

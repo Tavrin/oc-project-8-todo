@@ -3,15 +3,8 @@
 namespace Tests\Behat\features\bootstrap;
 
 use App\Entity\Task;
-use AppKernel;
 use Behat\Behat\Context\Context;
-use Behat\Behat\Tester\Exception\PendingException;
-use Behat\Gherkin\Node\PyStringNode;
-use Behat\Gherkin\Node\TableNode;
-use Behat\Mink\Driver\GoutteDriver;
-use Behat\Mink\Element\NodeElement;
 use Behat\Mink\Exception\ElementNotFoundException;
-use Behat\Mink\Session;
 use Behat\MinkExtension\Context\MinkContext;
 
 /**
@@ -20,6 +13,7 @@ use Behat\MinkExtension\Context\MinkContext;
 class FeatureContext extends MinkContext implements Context
 {
     public $session;
+
     /**
      * Initializes context.
      *
@@ -31,9 +25,9 @@ class FeatureContext extends MinkContext implements Context
     {
     }
 
-
     /**
      * @Given I am an user
+     *
      * @throws ElementNotFoundException
      */
     public function iAmAnAuthenticatedUser()
@@ -47,6 +41,7 @@ class FeatureContext extends MinkContext implements Context
 
     /**
      * @When i create a task
+     *
      * @throws ElementNotFoundException
      */
     public function iCreateATask()
@@ -66,6 +61,6 @@ class FeatureContext extends MinkContext implements Context
     {
         $em = self::$container->get('doctrine')->getManager();
         $task = $em->getRepository(Task::class)->findOneBy(['title' => 'new behat task']);
-        $task->getUser()->getUsername() === 'user';
+        'user' === $task->getUser()->getUsername();
     }
 }

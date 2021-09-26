@@ -5,9 +5,9 @@ use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\ErrorHandler\Debug;
 use Symfony\Component\HttpFoundation\Request;
 
-require dirname(__DIR__).'/config/bootstrap.php';
+require dirname(__DIR__) . '/config/bootstrap.php';
 
-(new Dotenv())->load(__DIR__.'/../.env.local');
+(new Dotenv())->load(__DIR__ . '/../.env.local');
 
 if ($_SERVER['APP_DEBUG']) {
     umask(0000);

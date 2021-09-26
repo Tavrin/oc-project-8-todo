@@ -2,14 +2,14 @@
 
 namespace App\Controller;
 
-use App\Manager\TaskManager;
 use App\Entity\Task;
 use App\Form\TaskType;
+use App\Manager\TaskManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 class TaskController extends AbstractController
 {
@@ -26,6 +26,7 @@ class TaskController extends AbstractController
     public function listAction(): ?Response
     {
         $tasks = $this->taskManager->getTasks();
+
         return $this->render('task/list.html.twig', ['tasks' => $tasks]);
     }
 
