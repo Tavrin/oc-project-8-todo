@@ -19,13 +19,11 @@ final class Version20210920115520 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-       $this->addSql('UPDATE task set user_id = 1 WHERE user_id IS NULL');
-
+        $this->addSql('UPDATE task set user_id = 1 WHERE user_id IS NULL');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-
     }
 }

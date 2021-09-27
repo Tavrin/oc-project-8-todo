@@ -11,9 +11,8 @@ use Faker\Factory;
 
 class TaskFixtures extends Fixture implements DependentFixtureInterface, ORMFixtureInterface
 {
-
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function getDependencies(): array
     {
@@ -24,13 +23,13 @@ class TaskFixtures extends Fixture implements DependentFixtureInterface, ORMFixt
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create();
 
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 1; $i <= 10; ++$i) {
             $task = new Task();
             $task->setUser($this->getReference('user'));
             $task->setTitle($faker->sentence());
@@ -39,7 +38,7 @@ class TaskFixtures extends Fixture implements DependentFixtureInterface, ORMFixt
             $manager->persist($task);
         }
 
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 1; $i <= 10; ++$i) {
             $task = new Task();
             $task->setTitle($faker->sentence(1));
             $task->setContent($faker->paragraph(3));

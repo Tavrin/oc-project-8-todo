@@ -7,7 +7,6 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Doctrine\ORM\Id\IdentityGenerator;
-use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -22,7 +21,7 @@ class UserFixtures extends Fixture implements ORMFixtureInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function load(ObjectManager $manager)
     {

@@ -33,6 +33,9 @@ jobs:
           php bin/console doctrine:schema:update --force
           php bin/console doctrine:fixtures:load --no-interaction
 
+      - name: Run code quality checks
+        run: vendor/bin/grumphp run --testsuite=code_quality
+
       - name: Run test suite
         run: vendor/bin/phpunit
 

@@ -3,9 +3,9 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Table("user")
@@ -105,13 +105,13 @@ class User implements UserInterface
      */
     public function hasRole(string $role): bool
     {
-       foreach ($this->roles as $userRole) {
-           if ($userRole === $role) {
-               return true;
-           }
-       }
+        foreach ($this->roles as $userRole) {
+            if ($userRole === $role) {
+                return true;
+            }
+        }
 
-       return false;
+        return false;
     }
 
     public function setRoles(array $roles): self

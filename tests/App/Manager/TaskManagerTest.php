@@ -52,7 +52,7 @@ class TaskManagerTest extends TestCase
         $user->setUsername('user');
         $user->setEmail('email@email.com');
         $user->setPassword('root');
-        $expected = clone($content);
+        $expected = clone $content;
 
         $actual = $this->entity->createTask($content, $user);
 
@@ -70,7 +70,7 @@ class TaskManagerTest extends TestCase
             ->method('findAll')
             ->willReturn($content);
 
-        $expected[0] = clone($content[0]);
+        $expected[0] = clone $content[0];
 
         $actual = $this->entity->getTasks();
 

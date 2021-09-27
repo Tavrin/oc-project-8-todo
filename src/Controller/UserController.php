@@ -5,10 +5,10 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Manager\UserManager;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends AbstractController
 {
@@ -24,7 +24,10 @@ class UserController extends AbstractController
      */
     public function listAction(): Response
     {
-        return $this->render('user/list.html.twig', ['users' => $this->getDoctrine()->getRepository('App:User')->findAll()]);
+        return $this->render(
+            'user/list.html.twig',
+            ['users' => $this->getDoctrine()->getRepository('App:User')->findAll()]
+        );
     }
 
     /**
