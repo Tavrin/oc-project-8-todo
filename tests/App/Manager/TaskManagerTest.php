@@ -76,4 +76,26 @@ class TaskManagerTest extends TestCase
 
         $this->assertEquals($expected, $actual);
     }
+
+    public function testDeleteTaskWrongUser()
+    {
+        $task = new Task();
+        $task->setTitle('toto');
+        $task->setContent('aa');
+        $task->setCreatedAt(new \DateTime());
+
+        $user = new User();
+        $user->setUsername('user');
+        $user->setEmail('email@email.com');
+        $user->setPassword('root');
+        $task->setUser($user);
+
+        $wrongUser = new User();
+        $wrongUser->setUsername('user2');
+        $wrongUser->setEmail('email2@email.com');
+        $wrongUser->setPassword('root');
+
+        $actual = $this->entity->deleteTask($task, $wrongUser);
+        $this->assertFalse($actual);
+    }
 }
