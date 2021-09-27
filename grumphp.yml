@@ -8,10 +8,22 @@ grumphp:
             standard: [PSR12]
             whitelist_patterns:
                 - /^src\/(.*)/
-        phpcsfixer:
+        phpcsfixer2:
             config: .php-cs-fixer.dist.php
             config_contains_finder: true
+        phpstan:
+            configuration: phpstan.neon
+            level: 1
+            ignore_patterns: ['/^(?!src)/']
         phpunit: ~
         git_commit_message:
+            max_subject_width: 72
             matchers:
                 'Penser à mettre le numéro de issue (ex: "DEV-XXX: Lorem ipsum")': /((DEV|RUN)-\d+:.+)/
+
+    testsuites:
+        code_quality:
+            tasks:
+                - phpcs
+                - phpcsfixer2
+                - phpstan
