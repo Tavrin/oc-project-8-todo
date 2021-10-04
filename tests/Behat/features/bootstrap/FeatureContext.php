@@ -3,6 +3,7 @@
 namespace Tests\Behat\features\bootstrap;
 
 use App\Entity\Task;
+use App\Entity\User;
 use Behat\Behat\Context\Context;
 use Behat\Mink\Exception\ElementNotFoundException;
 use Behat\MinkExtension\Context\MinkContext;
@@ -26,12 +27,14 @@ class FeatureContext extends MinkContext implements Context
     }
 
     /**
-     * @Given I am an user
+     * @Given I am an authenticated user
      *
      * @throws ElementNotFoundException
      */
     public function iAmAnAuthenticatedUser()
     {
+        $user = new User();
+
         $this->getSession()->visit('http://localhost:8000/login');
         $page = $this->getSession()->getPage();
         $page->fillField('_username', 'user');

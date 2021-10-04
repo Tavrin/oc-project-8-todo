@@ -2,6 +2,7 @@
 
 namespace Tests\App\Controller;
 
+use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class DefaultControllerTest extends WebTestCase
@@ -30,6 +31,10 @@ class DefaultControllerTest extends WebTestCase
 
     private function userLogin(): void
     {
+        $user = new User();
+        $user->setUsername('user');
+        $user->setEmail('email@email.com');
+        $user->setPassword('root');
         $crawler = $this->client->request('GET', '/login');
         $form = $crawler->selectButton('Se connecter')->form();
         $this->client->submit($form, ['_username' => 'user', '_password' => 'root']);

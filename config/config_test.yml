@@ -22,3 +22,12 @@ services:
 
     Tests\Behat\:
         resource: '../tests/Behat/*'
+
+# app/config/config_test.yml
+doctrine:
+    dbal:
+        default_connection: default
+        connections:
+            default:
+                driver:   pdo_sqlite
+                memory:   true
