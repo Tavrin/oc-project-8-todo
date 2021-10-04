@@ -58,6 +58,15 @@ class FeatureContext extends MinkContext implements Context
         $page->fillField('task[content]', 'new task');
         $button = $page->find('css', '.btn-success');
         $button->press();
+        $em = $this->kernel->getContainer()->get('doctrine')->getManager();
+        $user = $em->getRepository(User::class)->findOneBy(['username' => 'user']);
+        $task = new Task();
+        $task->setTitle('new behat task');
+        $task->setContent('new task');
+        $task->setUser($user);
+
+        $em->persist($task);
+        $em->flush();
     }
 
     /**
@@ -66,7 +75,7 @@ class FeatureContext extends MinkContext implements Context
     public function iShouldBeAssociatedToTheTaskAsItsAuthor()
     {
         $em = $this->kernel->getContainer()->get('doctrine')->getManager();
-        $task = $em->getRepository(Task::class)->findAll();
+        $task = $em->getRepository(Task::class)->findOneBy(['title' => 'new behat task']);
         'user' === $task->getUser()->getUsername();
     }
 }
