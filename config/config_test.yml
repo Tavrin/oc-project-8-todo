@@ -23,6 +23,11 @@ services:
     Tests\Behat\:
         resource: '../tests/Behat/*'
 
+    Tests\Behat\features\bootstrapT\FeatureContext:
+        arguments:
+            - '@kernel'
+        public: true
+
 # app/config/config_test.yml
 doctrine:
     dbal:

@@ -1,7 +1,7 @@
 default:
   extensions:
     Behat\MinkExtension:
-      base_url: 'https://localhost/'
+      base_url: 'http ://localhost/'
       goutte: ~
     FriendsOfBehat\SymfonyExtension:
       bootstrap: 'tests/Behat/features/bootstrap/bootstrap.php'
