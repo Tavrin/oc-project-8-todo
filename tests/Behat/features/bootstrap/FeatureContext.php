@@ -52,12 +52,6 @@ class FeatureContext extends MinkContext implements Context
      */
     public function iCreateATask()
     {
-        $this->session->visit('http://localhost:8000/tasks/create');
-        $page = $this->session->getPage();
-        $page->fillField('task[title]', 'new behat task');
-        $page->fillField('task[content]', 'new task');
-        $button = $page->find('css', '.btn-success');
-        $button->press();
         $em = $this->kernel->getContainer()->get('doctrine')->getManager();
         $user = $em->getRepository(User::class)->findOneBy(['username' => 'user']);
         $task = new Task();
