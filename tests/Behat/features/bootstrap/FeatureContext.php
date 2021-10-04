@@ -4,26 +4,29 @@ namespace Tests\Behat\features\bootstrap;
 
 use App\Entity\Task;
 use App\Entity\User;
+use App\Kernel;
 use Behat\Behat\Context\Context;
 use Behat\Mink\Exception\ElementNotFoundException;
+use Behat\Mink\Session;
 use Behat\MinkExtension\Context\MinkContext;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
  * Defines application features from the specific context.
  */
 class FeatureContext extends MinkContext implements Context
 {
-    public $session;
+    public Session $session;
 
     /**
-     * Initializes context.
-     *
-     * Every scenario gets its own context instance.
-     * You can also pass arbitrary arguments to the
-     * context constructor through behat.yml.
+     * @var Kernel
      */
-    public function __construct()
+    private KernelInterface $kernel;
+
+    public function __construct(Session $session, KernelInterface $kernel)
     {
+        $this->session = $session;
+        $this->kernel = $kernel;
     }
 
     /**
@@ -35,22 +38,22 @@ class FeatureContext extends MinkContext implements Context
     {
         $user = new User();
 
-        $this->getSession()->visit('http://localhost:8000/login');
-        $page = $this->getSession()->getPage();
+        $this->session->visit('http://localhost:8000/login');
+        $page = $this->session->getPage();
         $page->fillField('_username', 'user');
         $page->fillField('_password', 'root');
         $page->find('css', '.btn-success')->press();
     }
 
     /**
-     * @When i create a task
+     * @When I create a task
      *
      * @throws ElementNotFoundException
      */
     public function iCreateATask()
     {
-        $this->getSession()->visit('http://localhost:8000/tasks/create');
-        $page = $this->getSession()->getPage();
+        $this->session->visit('http://localhost:8000/tasks/create');
+        $page = $this->session->getPage();
         $page->fillField('task[title]', 'new behat task');
         $page->fillField('task[content]', 'new task');
         $button = $page->find('css', '.btn-success');
@@ -62,8 +65,8 @@ class FeatureContext extends MinkContext implements Context
      */
     public function iShouldBeAssociatedToTheTaskAsItsAuthor()
     {
-        $em = self::$container->get('doctrine')->getManager();
-        $task = $em->getRepository(Task::class)->findOneBy(['title' => 'new behat task']);
+        $em = $this->kernel->getContainer()->get('doctrine')->getManager();
+        $task = $em->getRepository(Task::class)->findAll();
         'user' === $task->getUser()->getUsername();
     }
 }

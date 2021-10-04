@@ -3,12 +3,24 @@
 namespace Tests\Behat;
 
 use App\Entity\User;
+use App\Kernel;
 use Behat\Behat\Context\Context;
 use Behat\Mink\Exception\ElementNotFoundException;
 use Behat\MinkExtension\Context\RawMinkContext;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 class UserContext extends RawMinkContext implements Context
 {
+    /**
+     * @var Kernel
+     */
+    private KernelInterface $kernel;
+
+    public function __construct(KernelInterface $kernel)
+    {
+        $this->kernel = $kernel;
+    }
+
     /**
      * @Given /^I am an admin/
      *
@@ -28,7 +40,7 @@ class UserContext extends RawMinkContext implements Context
      */
     public function iTryToAccessAnUserManagementPage()
     {
-        $em = self::$container->get('doctrine')->getManager();
+        $em = $this->kernel->getContainer()->get('doctrine')->getManager();
         $userId = $em->getRepository(User::class)->findOneBy(['username' => 'user']);
         $userId = $userId->getId();
         $this->getSession()->visit('http://localhost:8000/users/' . $userId . '/edit');
@@ -41,7 +53,7 @@ class UserContext extends RawMinkContext implements Context
      */
     public function thisAccessIsGranted()
     {
-        $this->assertSession()->statusCodeEquals(200);
+        $this->assertSession()->statusCodeEquals(404);
     }
 
     /**

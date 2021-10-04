@@ -6,6 +6,6 @@ Feature: User
     When I try to access a user's management page
     Then this access is granted
 
-    Given I am an user
+    Given I am an authenticated user
     When I try to access a user's management page
     Then this access is not granted
