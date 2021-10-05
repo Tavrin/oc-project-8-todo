@@ -1,12 +1,17 @@
 default:
   extensions:
     Behat\MinkExtension:
+      base_url: 'http ://localhost/'
       goutte: ~
-    FriendsOfBehat\SymfonyExtension: ~
+    FriendsOfBehat\SymfonyExtension:
+      bootstrap: 'tests/Behat/features/bootstrap/bootstrap.php'
+      kernel:
+        class: App\Kernel
+        path: src/Kernel.php
   suites:
     default:
       paths:
-      - %paths.base%/tests/Behat/features
+        - '%paths.base%/tests/Behat/features'
       contexts:
         - Tests\Behat\features\bootstrap\FeatureContext
         - Tests\Behat\UserContext
